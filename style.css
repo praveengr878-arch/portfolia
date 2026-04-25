@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  text-align: center;
+  background-color: black;
+}
+
+header {
+  background: #262ea1;
+  color: white;
+  padding: 15px;
+}
+
+nav {
+  background: #272240;
+  padding: 10px;
+}
+
+nav a {
+  color: white;
+  margin: 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+section {
+  padding: 40px;
+  text-align: left;
+  background-color: black;
+  color: white;
+}
+
+.project {
+  background: #3436ad;
+  margin: 10px auto;
+  padding: 15px;
+  width: 250px;
+  border-radius: 5px;
+}
+.box{
+    font-size: 20px;
+    text-align: center;
+    padding: 20px;
+}
+button{
+    font-style: oblique;
+    color:white;
+    background-color: black;
+}

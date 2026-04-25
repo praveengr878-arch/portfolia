@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do List</title>
+
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: Arial;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    input {
+      padding: 8px;
+      width: 200px;
+    }
+
+    button {
+      margin-left: 10px;
+      color: white;
+      background-color: #333;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    li {
+      background-color: #1e1e1e;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    li button {
+      display: none;
+    }
+
+    span {
+      flex: 1;
+    }
+
+    #saveBtn {
+      position: fixed;
+      top: 100px;
+      right: 100px;
+      background-color: #00c853;
+      padding: 8px 12px;
+      border-radius: 5px;
+    }
+
+    #saveBtn:hover {
+      background-color: #00e676;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ✅ Save Button -->
+<button id="saveBtn" onclick="downloadPage()">Save Page</button>
+
+<h1>📋To-Do List</h1>
+
+<center>
+  <input id="task" type="text" placeholder="Enter task">
+  <button onclick="addTask()">Add</button>
+</center>
+
+<ol id="list"></ol>
+
+<script>
+
+// ✅ Add Task Function
+function addTask() {
+  let task = document.getElementById("task").value;
+
+  if (task === "") {
+    alert("Enter a task");
+    return;
+  }
+
+  let li = document.createElement("li");
+
+  // Checkbox
+  let checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+
+  // Text
+  let span = document.createElement("span");
+  span.innerText = task;
+
+  // Strike-through
+  checkbox.addEventListener("change", function() {
+    if (checkbox.checked) {
+      span.style.textDecoration = "line-through";
+      span.style.opacity = "0.6";
+    } else {
+      span.style.textDecoration = "none";
+      span.style.opacity = "1";
+    }
+  });
+
+  // Edit button
+  let editBtn = document.createElement("button");
+  editBtn.innerText = "Edit";
+
+  editBtn.onclick = function(event) {
+    event.stopPropagation();
+    let newtask = prompt("Edit your task:", span.textContent);
+    if (newtask !== null && newtask !== "") {
+      span.textContent = newtask;
+    }
+  };
+
+  // Delete button
+  let deleteBtn = document.createElement("button");
+  deleteBtn.innerText = "Delete";
+
+  deleteBtn.onclick = function(event) {
+    event.stopPropagation();
+    li.remove();
+  };
+
+  // Append
+  li.appendChild(checkbox);
+  li.appendChild(span);
+  li.appendChild(editBtn);
+  li.appendChild(deleteBtn);
+
+  document.getElementById("list").appendChild(li);
+
+  // Show buttons on click
+  li.addEventListener("click", function(event) {
+    event.stopPropagation();
+
+    document.querySelectorAll("li button").forEach(btn => {
+      btn.style.display = "none";
+    });
+
+    editBtn.style.display = "inline";
+    deleteBtn.style.display = "inline";
+  });
+
+  document.getElementById("task").value = "";
+  document.getElementById("task").focus();
+}
+
+// ✅ Hide buttons when clicking outside
+document.addEventListener("click", function() {
+  document.querySelectorAll("li button").forEach(btn => {
+    btn.style.display = "none";
+  });
+});
+
+// ✅ Enter key support
+document.getElementById("task").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    addTask();
+  }
+});
+
+// ✅ Download Page Function (FIXED 🔥)
+function downloadPage() {
+  let content = document.documentElement.outerHTML;
+
+  let blob = new Blob([content], { type: "text/html" });
+  let url = URL.createObjectURL(blob);
+
+  let a = document.createElement("a");
+  a.href = url;
+  a.download = "todo.html";
+
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+</script>
+
+</body>
+</html>
